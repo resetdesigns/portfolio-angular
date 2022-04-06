@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form
+        #contactForm="ngForm"
+        (ngSubmit)="onSubmit(contactForm)"
+        *ngIf="!isLoading"
+      >
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            ngModel
+            name="name"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            ngModel
+            name="email"
+            required
+            email
+          />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            class="form-control"
+            id="message"
+            rows="3"
+            ngModel
+            name="message"
+            required
+          ></textarea>
+        </div>
+        <div>
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="!contactForm.valid"
+          >
+            Let's Talk
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
