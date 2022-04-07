@@ -13,6 +13,8 @@ import { ContactComponent } from './contact/contact.component';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from './footer/footer.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { ProjectComponent } from './projects/project/project.component';
+import { ArticleComponent } from './articles/article/article.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { HomepageComponent } from './homepage/homepage.component';
     ContactComponent,
     FooterComponent,
     HomepageComponent,
+    ProjectComponent,
+    ArticleComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
