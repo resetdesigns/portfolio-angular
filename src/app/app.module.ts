@@ -31,7 +31,7 @@ import { ArticleComponent } from './articles/article/article.component';
     ProjectComponent,
     ArticleComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule.withServerTransition({ appId: 'serverApp' }), AppRoutingModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
