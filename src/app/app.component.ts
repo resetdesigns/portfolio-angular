@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentfulApiService } from './services/contentful-api.service';
 import { Entry } from 'contentful';
+import { Global } from './common/global';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private contentfulAPI: ContentfulApiService) {}
 
   ngOnInit() {
-    this.contentfulAPI.getPages().then((pages) => (this.pages = pages));
+    // this.contentfulAPI.getPages().then((pages) => (this.pages = pages));
+    console.log(Global.pageInfo);
   }
 }
