@@ -10,6 +10,8 @@ import { existsSync } from 'fs';
 
 import { createClient, Entry } from 'contentful';
 
+import { Global } from 'src/app/common/global';
+
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
@@ -45,8 +47,14 @@ export function app(): express.Express {
       .then((res) => res.items);
   }
 
+  // TODO: Use TransferState instead of Express Middleware
+  // https://angular.io/api/platform-browser/TransferState
   server.use((req, res, next) => {
-    getPages().then((pages) => res.send(pages));
+    getPages().then((pages) => {
+      Global.pageInfo = pages;
+      console.log(Global.pageInfo);
+      next();
+    });
   });
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
