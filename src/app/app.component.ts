@@ -1,7 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { ContentfulApiService } from './services/contentful-api.service';
-import { Entry } from 'contentful';
-import { Global } from './common/global';
+import { isPlatformServer } from '@angular/common';
+import {
+  Component,
+  Inject,
+  Injector,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
+import {
+  makeStateKey,
+  TransferState,
+  Title,
+  Meta,
+} from '@angular/platform-browser';
+
+const testStateKey = makeStateKey('TESTSTATE');
 
 @Component({
   selector: 'app-root',
@@ -9,13 +21,35 @@ import { Global } from './common/global';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'jv-portfolio';
-  pages: Entry<any>[] = [];
+  private title: string = '';
+  private description: string = '';
 
-  constructor(private contentfulAPI: ContentfulApiService) {}
+  constructor(
+    private injector: Injector,
+    private state: TransferState,
+    @Inject(PLATFORM_ID) private platformid: Object,
+    private titleService: Title,
+    private metaService: Meta
+  ) {}
 
   ngOnInit() {
-    // this.contentfulAPI.getPages().then((pages) => (this.pages = pages));
-    console.log(Global.pageInfo);
+    if (isPlatformServer(this.platformid)) {
+      const testStateJSON = this.injector.get('TESTSTATE')
+        ? this.injector.get('TESTSTATE')
+        : { not: 'available' };
+
+      // this.state.get()
+      this.state.set(testStateKey, testStateJSON);
+    }
+    const contentfulRes = this.state.get(testStateKey, <any>[]);
+    // const res = contentfulRes[0].fields;
+    this.titleService.setTitle(contentfulRes);
+    // this.description = res.seoDescription;
+
+    this.metaService.addTags([
+      { name: 'keywords', content: 'Angular, Universal, Example' },
+      { name: 'description', content: 'Angular Universal Example' },
+      { name: 'robots', content: 'index, follow' },
+    ]);
   }
 }
