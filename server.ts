@@ -10,8 +10,6 @@ import { existsSync } from 'fs';
 
 import { createClient, Entry } from 'contentful';
 
-import { Global } from 'src/app/common/global';
-
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
@@ -20,6 +18,8 @@ export function app(): express.Express {
     ? 'index.original.html'
     : 'index';
 
+  // TODO: Use TransferState instead of Express Middleware
+  // https://angular.io/api/platform-browser/TransferState\
   const CONFIG = {
     space: '1q8fb1hdekqp',
     accessToken: 'TyNRjeXVFMFBO6BPfyPKeh5DKMFj5znZM0bxDDpWo4k',
@@ -47,14 +47,11 @@ export function app(): express.Express {
       .then((res) => res.items);
   }
 
-  // TODO: Use TransferState instead of Express Middleware
-  // https://angular.io/api/platform-browser/TransferState
-  server.use((req, res, next) => {
-    getPages().then((pages) => {
-      Global.pageInfo = pages;
-      console.log(Global.pageInfo);
-      next();
-    });
+  let testState: any;
+
+  getPages().then((pages) => {
+    testState = pages[0].fields.seoTitle;
+    // console.log(testState);
   });
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
@@ -82,7 +79,10 @@ export function app(): express.Express {
   server.get('*', (req, res) => {
     res.render(indexHtml, {
       req,
-      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: req.baseUrl },
+        { provide: 'TESTSTATE', useFactory: () => testState, deps: [] },
+      ],
     });
   });
 

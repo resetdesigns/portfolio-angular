@@ -4,14 +4,16 @@ import { ContactComponent } from './contact/contact.component';
 import { HomepageComponent } from './homepage/homepage.component';
 
 const routes: Routes = [
-  { path: '', component: HomepageComponent },
+  { path: 'home', component: HomepageComponent },
   { path: 'contact', component: ContactComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabledBlocking'
-})],
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabledBlocking',
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
