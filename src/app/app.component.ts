@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     //   tap((data:string) => this.metaService.updateMeta(data));
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
-        console.log(event.url);
+        // console.log(event.url);
         this.metaService.updateMeta(event.url);
       }
     });

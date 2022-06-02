@@ -11,6 +11,7 @@ export class MetaService {
   updateMeta(route: string) {
     if (Object.prototype.hasOwnProperty.call(META_INFO, route)) {
       const { title, description } = META_INFO[route];
+      console.log(route, title, description);
       this.updateTitle(title);
       this.updateDescription(description);
     }
